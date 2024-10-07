@@ -3,9 +3,25 @@ import { View, ScrollView, Pressable, StyleSheet } from 'react-native';
 import Text from './Text';
 import { useNavigate } from 'react-router-native'; 
 import theme from '../theme';
+import { USER } from '../graphql/queries';
+import { useQuery, useApolloClient } from '@apollo/client';
+import useAuthStorage from '../hooks/useAuthStorage';
+
 
 const AppBar = () => {
+  const { data } = useQuery(USER);
+  const isAuthenticated = data?.me ? true : false;
+  const authStorage = useAuthStorage();
+  const apolloClient = useApolloClient();
+
   const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    await authStorage.removeAccessToken();
+    apolloClient.resetStore();
+    navigate('/signin');
+  };
+  
   return (
     <View style={styles.container}>
       <ScrollView 
@@ -18,11 +34,19 @@ const AppBar = () => {
             Repositories
           </Text>
         </Pressable>
-        <Pressable onPress={() => navigate('/signin')}>
-          <Text fontSize="subheading" fontWeight="bold" color="white" style={styles.menuItem}>
-            Sign in
-          </Text>
-        </Pressable>
+        {isAuthenticated ? (
+          <Pressable onPress={handleSignOut}>
+            <Text fontSize="subheading" fontWeight="bold" color="white" style={styles.menuItem}>
+              Sign Out
+            </Text>
+          </Pressable>
+        ) : (
+          <Pressable onPress={() => navigate('/signin')}>
+            <Text fontSize="subheading" fontWeight="bold" color="white" style={styles.menuItem}>
+              Sign In
+            </Text>
+          </Pressable>
+        )}
       </ScrollView>
     </View>
   );
