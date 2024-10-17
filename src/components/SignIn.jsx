@@ -65,9 +65,7 @@ const SignInForm = ({ onSubmit }) => {
   );
 };
 
-const SignIn = () => {
-  const [signIn] = useSignIn();
-  const navigate = useNavigate();
+export const SignInContainer = ({ signIn, navigate }) => {
 
   const onSubmit = async (values) => {
     const { username, password } = values;
@@ -81,6 +79,15 @@ const SignIn = () => {
 
   return (
     <SignInForm onSubmit={onSubmit} />
+  );
+}
+
+const SignIn = () => {
+  const [signIn] = useSignIn();
+  const navigate = useNavigate();
+
+  return (
+    <SignInContainer signIn={signIn} navigate={navigate} />
   );
 };
 

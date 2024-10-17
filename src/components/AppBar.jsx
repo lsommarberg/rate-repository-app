@@ -7,7 +7,6 @@ import { USER } from '../graphql/queries';
 import { useQuery, useApolloClient } from '@apollo/client';
 import useAuthStorage from '../hooks/useAuthStorage';
 
-
 const AppBar = () => {
   const { data } = useQuery(USER);
   const isAuthenticated = data?.me ? true : false;
@@ -22,6 +21,7 @@ const AppBar = () => {
     navigate('/signin');
   };
   
+
   return (
     <View style={styles.container}>
       <ScrollView 
@@ -29,23 +29,43 @@ const AppBar = () => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scrollContainer}
       >
-        <Pressable  onPress={() => navigate('/')}>
+        <Pressable onPress={() => navigate('/')}>
           <Text fontSize="subheading" fontWeight="bold" color="white" style={styles.menuItem}>
             Repositories
           </Text>
         </Pressable>
-        {isAuthenticated ? (
-          <Pressable onPress={handleSignOut}>
-            <Text fontSize="subheading" fontWeight="bold" color="white" style={styles.menuItem}>
-              Sign Out
-            </Text>
-          </Pressable>
-        ) : (
-          <Pressable onPress={() => navigate('/signin')}>
-            <Text fontSize="subheading" fontWeight="bold" color="white" style={styles.menuItem}>
-              Sign In
-            </Text>
-          </Pressable>
+        {!isAuthenticated && (
+          <>
+            <Pressable onPress={() => navigate('/signin')}>
+              <Text fontSize="subheading" fontWeight="bold" color="white" style={styles.menuItem}>
+                Sign In
+              </Text>
+            </Pressable>
+            <Pressable onPress={() => navigate('/signup')}>
+              <Text fontSize="subheading" fontWeight="bold" color="white" style={styles.menuItem}>
+                Sign Up
+              </Text>
+            </Pressable>
+          </>
+        )}
+        {isAuthenticated && (
+          <>
+            <Pressable onPress={handleSignOut}>
+              <Text fontSize="subheading" fontWeight="bold" color="white" style={styles.menuItem}>
+                Sign Out
+              </Text>
+            </Pressable>
+            <Pressable onPress={() => navigate('/createreview')}>
+              <Text fontSize="subheading" fontWeight="bold" color="white" style={styles.menuItem}>
+                Create a review
+              </Text>
+            </Pressable>
+            <Pressable onPress={() => navigate('/myreviews')}>
+              <Text fontSize="subheading" fontWeight="bold" color="white" style={styles.menuItem}>
+                My reviews
+              </Text>
+            </Pressable>
+          </>
         )}
       </ScrollView>
     </View>

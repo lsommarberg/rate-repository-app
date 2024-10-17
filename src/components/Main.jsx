@@ -2,10 +2,15 @@ import { StyleSheet, View } from 'react-native';
 
 import { Route, Routes, Navigate } from 'react-router-native';
 
-import RepositoryList from './RepositoryList';
+import RepositoryList from './repositories/RepositoryList';
 import AppBar from './AppBar';
 import theme from '../theme';
 import SignIn from './SignIn';
+import SingleRepository from './repositories/RepositoryInfo';
+import CreateReview from './ReviewForm';
+import SignUp from './SignUp'
+import UserReviews from './UserReviews';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -23,8 +28,11 @@ const Main = () => {
       <Routes>
         <Route path="/" element={<RepositoryList />} />
         <Route path="/signin" element={<SignIn />} />
-
+        <Route path="/:id" element={<SingleRepository />} />
         <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="/createreview" element={<CreateReview />} />
+        <Route path='/signup' element={<SignUp />}/>
+        <Route path='/myreviews' element={<UserReviews />}/>
       </Routes>
     </View>
   );

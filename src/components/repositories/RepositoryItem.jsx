@@ -6,7 +6,7 @@ import { RepositoryHeader } from './RepositoryComponents';
 
 const RepositoryItem = ({ repository }) => {
   return (
-    <View style={styles.repositoryItem}>
+    <View testID="repositoryItem" style={styles.repositoryItem}>
       <RepositoryHeader
         fullName={repository.fullName}
         description={repository.description}

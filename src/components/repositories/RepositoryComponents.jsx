@@ -1,7 +1,21 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
-import Text from './Text';
-import theme from '../theme';
+import { View, Image, StyleSheet, Linking, Pressable } from 'react-native';
+import Text from '../Text';
+import theme from '../../theme';
+
+export const RepositoryLink = ({ url }) => {
+  const handlePress = () => {
+    Linking.openURL(url);
+  };
+
+  return (
+    <View>
+      <Pressable style={styles.button} onPress={handlePress}>
+      <Text color="white" fontWeight="bold" textAlign="center" onPress={handlePress}>Open in GitHub</Text>
+      </Pressable>
+    </View>
+  );
+};
 
 export const RepositoryHeader = ({ fullName, description, ownerAvatarUrl, language }) => {
   return (
@@ -10,7 +24,7 @@ export const RepositoryHeader = ({ fullName, description, ownerAvatarUrl, langua
         source={{ uri: ownerAvatarUrl }}
         style={styles.avatar}
       />
-      <View style={styles.textContainer}>
+      <View >
         <Text fontWeight="bold" fontSize="subheading">{fullName}</Text>
         <Text color="textSecondary">{description}</Text>
         <LanguageTag language={language} />
@@ -59,9 +73,6 @@ export const styles = StyleSheet.create({
       borderRadius: 5,
       marginRight: 10,
     },
-    textContainer: {
-      flex: 1,
-    },
     languageTag: {
       alignSelf: 'flex-start',
       backgroundColor: theme.colors.primary,
@@ -73,5 +84,11 @@ export const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-between',
       marginTop: 10,
+    },
+    button: {
+      backgroundColor: theme.colors.primary,
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      borderRadius: 5,
     },
   });
